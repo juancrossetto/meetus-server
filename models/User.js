@@ -46,6 +46,10 @@ const UserSchema = mongoose.Schema({
     type: String,
   },
   phoneNumber: {
+    type: String,
+    trim: true,
+  },
+  points: {
     type: Number,
     trim: true,
   },

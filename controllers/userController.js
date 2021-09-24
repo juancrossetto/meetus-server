@@ -1,5 +1,4 @@
 const User = require('../models/User');
-const UserService = require('../services/userService');
 const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -11,7 +10,7 @@ exports.createUser = async (req, res) => {
     return res.status(400).json({ errores: errores.array() });
   }
 
-  const { name, surName, dni, cuit, businessName, email, password, type, userType } = req.body;
+  const { name, surName, dni, cuit, businessName, email, password } = req.body;
 
   try {
     // Revisar que el usuario registrado sea unico
@@ -21,19 +20,9 @@ exports.createUser = async (req, res) => {
       return res.status(400).json({ msg: 'El mail que intenta utilizar ya existe' });
     }
 
-    user =
-      type === 'USR' && userType === 'FCO' // Si es consumidor final valida que no este registrado con ese DNI.
-        ? await User.findOne({ dni })
-        : await User.findOne({ cuit });
-
-    if (user) {
-      return res.status(400).json({ msg: 'Ya se encuentra registrado con esa identificacion' });
-    }
-
     // crea el nuevo usuario
     user = new User(req.body);
-    user.segment = await UserService.getUserSegment(parseInt(user.monthlyIncome), user.userType);
-
+    user.points = 0;
     // Hashear el password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
@@ -107,12 +96,6 @@ exports.getUser = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: 'No existe ese Usuario' });
-    }
-
-    const updateSegment = await UserService.updateUserSegment(user);
-
-    if (!updateSegment.isSuccess) {
-      return res.status(404).json({ message: updateSegment.data });
     }
 
     res.json({ user });
