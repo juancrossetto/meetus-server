@@ -30,4 +30,6 @@ router.delete('/:id', userController.deleteUser);
 
 router.post('/checkPassword', userController.checkPassword);
 
+router.post('/updatePoints/:id', userController.updateUserPoints);
+
 module.exports = router;

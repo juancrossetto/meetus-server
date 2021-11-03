@@ -142,6 +142,32 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+exports.updateUserPoints = async (req, res) => {
+  try {
+    // Extraer el proyecto y comprobar si existe
+    const { points } = req.body;
+
+    // Si el Usuario existe o no
+    let user = await User.findOne({ _id: req.params.id });
+
+    if (!user) {
+      return res.status(500).json({ msg: 'No existe el Usuario indicado' });
+    }
+    // Crear un objeto con la nueva información
+    const newPoints = points ? user.points + points : user.points;
+    const userEdited = user;
+    userEdited.points = newPoints;
+    user = await User.findOneAndUpdate({ _id: req.params.id }, {points: newPoints}, {
+      new: false,
+    });
+    
+    res.json({ user: userEdited });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Hubo un error');
+  }
+};
+
 exports.deleteUser = async (req, res) => {
   try {
     let user = await User.findOne({ _id: req.params.id });
