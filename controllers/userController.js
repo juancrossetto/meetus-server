@@ -182,3 +182,24 @@ exports.deleteUser = async (req, res) => {
     res.status(500).send('Hubo un error');
   }
 };
+
+exports.getPoints = async (req, res) => {
+  try {
+    // Extraer el proyecto y comprobar si existe
+    const { points } = req.body;
+
+    // Si el Usuario existe o no
+    let user = await User.findOne({ _id: req.params.id });
+
+    if (!user) {
+      return res.status(500).json({ msg: 'No existe el Usuario indicado' });
+    }
+ 
+    
+    res.json({ points: user.points });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Hubo un error');
+  }
+};
+

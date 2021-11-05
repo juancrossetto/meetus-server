@@ -32,4 +32,6 @@ router.post('/checkPassword', userController.checkPassword);
 
 router.post('/updatePoints/:id', userController.updateUserPoints);
 
+router.get('/getPoints/:id', userController.getPoints);
+
 module.exports = router;
