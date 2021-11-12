@@ -25,6 +25,7 @@ const port = process.env.PORT || 4000;
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/email', require('./routes/email'));
+app.use('/api/dailyQuestion', require('./routes/dailyQuestion'));
 
 // arrancar la app
 app.listen(port, '0.0.0.0', () => {
