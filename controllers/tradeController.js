@@ -3,23 +3,30 @@ const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-exports.getPoints = async (req, res) => {
+exports.getAllByUser = async (req, res) => {
   try {
-    // Extraer el proyecto y comprobar si existe
-    const { id } = req.body;
-
     // Si el Usuario existe o no
-    let trade = await Trade.findOne({ _id: req.params.id });
+    let trades = await Trade.find({ userId: req.params.id });
 
-    if (!trade) {
+    if (!trades) {
       return res.status(500).json({ msg: 'No existe el Usuario indicado' });
     }
- 
-    
-    res.json({ points: trade });
+
+    res.json({ trades });
   } catch (error) {
     console.log(error);
     res.status(500).send('Hubo un error');
   }
 };
 
+exports.createTrade = async (req, res) => {
+  try {
+    let trade = new Trade(req.body);
+    await trade.save();
+
+    res.json({ trade: trade });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Hubo un error al crear el canje');
+  }
+};
