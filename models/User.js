@@ -53,7 +53,7 @@ const UserSchema = mongoose.Schema({
     type: Number,
     trim: true,
   },
-  rol: {
+  role: {
     type: String,
     required: false,
     trim: true,
