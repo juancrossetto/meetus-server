@@ -27,7 +27,9 @@ const DailyQuestionSchema = mongoose.Schema({
     type: [AnswerSchema],
     required: true,
   },
+  points: {
+    type: Number,
+  },
 });
-
 
 module.exports = mongoose.model('DailyQuestion', DailyQuestionSchema);
