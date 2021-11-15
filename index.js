@@ -27,6 +27,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/email', require('./routes/email'));
 app.use('/api/trade', require('./routes/trade'));
 app.use('/api/dailyQuestion', require('./routes/dailyQuestion'));
+app.use('/api/schedule', require('./routes/schedule'));
 
 // arrancar la app
 app.listen(port, '0.0.0.0', () => {
