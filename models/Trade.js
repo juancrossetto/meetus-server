@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const ProductImageSchema = mongoose.Schema({
+  url: {
+    type: String,
+  },
+});
+
 const ProductSchema = mongoose.Schema({
   name: {
     type: String,
@@ -12,7 +18,7 @@ const ProductSchema = mongoose.Schema({
     trim: true,
   },
   images: {
-    type: String,
+    type: [ProductImageSchema],
     required: false,
     trim: true,
   },
